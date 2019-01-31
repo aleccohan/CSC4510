@@ -1,8 +1,8 @@
 # CSC-4510 Program 1
-Authors: Matthew Olker and Alec Cohan
-Date: 1-22-2019
-Class: CSC4510
-Source: molker/csc4510/P1/
+* Authors: Matthew Olker and Alec Cohan
+* Date: 1-22-2019
+* Class: CSC4510
+* Source: molker/csc4510/P1/
 
 ## How to Run
 * To run this correctly, make sure to run the scripts from the Source directory. This makes sure that any of the executable files or .ali files from ada are kept in the Source directory and don't start flooding the Script directory. 
