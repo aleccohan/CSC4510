@@ -8,11 +8,13 @@
 # the OutFiles directory against the correct outputs in the Correct directory
 # No parameters necessary
 
-
+# Testing if the Correct directory (holding the correct outputs) exists
 if [ ! -d "../Correct/" ]; then
 	echo "Compare.sh: Correct directory doesn't exist or isn't in the right place"
 	exit 2
 fi
+
+# Testing if the OutFiles directory (holding the program outputs) exists
 if [ ! -d "../OutFiles/" ]; then
 	echo "Compare.sh: OutFiles directory doesn't exist or isn't in the right place"
 	exit 2
@@ -20,6 +22,8 @@ fi
 
 success=true
 
+# Testing every file in OutFiles to find any links or directories
+# if file is neither, test OutFile file againsed Correct file
 for file in `ls ../OutFiles/`
 do
 	if test -L $file
@@ -37,6 +41,7 @@ do
 	fi
 done
 
+# If $success = true then each comparison came up true, if $success = false a comparison failed
 if [ "$success" = true ]; then
 	echo "Comparing Successful: All output is correct!"
 else 
