@@ -14,17 +14,20 @@
 #	1: Executable file name
 testAnswers()
 {
-	outfiles=false
+	# If the Directory TestFiles doesn't exist then exit script
 	if [ ! -d "../TestFiles/" ]; then
 		echo "Test.sh: TestFiles directory doesn't exist or isn't in the right place"
 		exit 1
 	fi
+	
+	# If the Directory OutFiles doesn't exist then create the Directory
 	if [ ! -d "../OutFiles/" ]; then
 		mkdir "../OutFiles/"
-		outfiles=true
 		echo "Test.sh: OutFiles directory made"
 	fi
-
+	
+	# for each file in TestFiles test if it is a link / directory
+	# if neither then create a file in OutFiles to hold output data and run code
 	for file in `ls ../TestFiles/`
 	do
 		if test -L $file
@@ -33,7 +36,7 @@ testAnswers()
 		elif [[ -d $file ]]; then
 			echo "Test.sh: $file is a directory"
 		else
-			if [ "$outfiles" = true ]; then
+			if [ ! -a "../OutFiles/$file" ]; then
 				touch "../OutFiles/$file"
 			fi
 			$1 < "../TestFiles/$file" > "../OutFiles/$file"
@@ -51,6 +54,7 @@ if [ ! -x $2 ]; then
 	exit 3
 fi
 
+# depending on the 1st argument run the code through testAnswers and then run it
 case "$1" in 
 	ada)
 		testAnswers a.out
