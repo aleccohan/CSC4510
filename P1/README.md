@@ -42,16 +42,15 @@ Source: molker/csc4510/P1/
 ../CTC.sh <language> <File to Compile>
 ```
 * This will make sure to run all the above mentioned scripts, so if it runs correctly you should expect to see all three success statements mentioned above
-> Compiling Successful
-
-> Testing Successful
-
-> Comparing Successful
+```bash
+Compiling Successful
+Testing Successful
+Comparing Successful
+```
 * It is also possible you'll see the message included for creating the OutFiles directory which will then make the output read
-> Compiling Successful
-
-> Test.sh: OutFiles directory made
-
-> Testing Successful
-
-> Comparing Successful
+```bash
+Compiling Successful
+Test.sh: OutFiles directory made
+Testing Successful
+Comparing Successful
+```
