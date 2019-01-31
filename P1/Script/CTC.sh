@@ -12,6 +12,9 @@
 #  1: language 
 #	2: File to Compile
 
+# Running Compilation Script
 ../Script/Compile.sh $1 $2
+# Running Testing Script
 ../Script/Test.sh $1 
+# Running Compare Script
 ../Script/Compare.sh
