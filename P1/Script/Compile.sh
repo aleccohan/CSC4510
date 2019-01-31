@@ -11,11 +11,13 @@
 #	1: Language
 #	2: source File Name
 
+# if the second argument is not an actual file then return error 
 if [ ! -e $2 ]; then
 	echo "Compile.sh: File $2 does not exist"
 	exit 1
 fi
 
+# depending on the language entered the case will run the coresponding compiler
 case "$1" in 
 	ada)
 		gnatmake -q $2
