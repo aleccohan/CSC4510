@@ -35,8 +35,8 @@ bc
 
 ## Syntax
 ### Operators
+Currently, even though minus is in the code, it has not been implemented into the grammar. 
 * Plus +
-* Minus -
 * Mulitply * 
 * Equal =
 	* Input can include assignment statements for creating variables
