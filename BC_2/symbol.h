@@ -17,7 +17,7 @@
  *    placed into the table.
  */
 #ifndef SYMBOL_H
-#define SYNBOL_H
+#define SYMBOL_H
 
 #include <list>
 #include <string>
@@ -36,7 +36,7 @@ class item{
        //methods
        void updateVal(int newVal){val = newVal;}      
 
-       item(){};
+       item(){var="";};
        ~item(){};
 
        //overloaded = operator

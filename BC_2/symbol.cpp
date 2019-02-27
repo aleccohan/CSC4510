@@ -32,9 +32,9 @@ symbol::~symbol()
 void symbol::dump()
 {
    for(int i=0;i<PRIME;i++){
-      for(list<item>::iterator it=table[i].begin();it!=table[i].end();++it)
-         cout << " " << (*it).val << " " << (*it).var;
-      cout << endl;
+      for(list<item>::iterator it=table[i].begin();it!=table[i].end();++it){
+         cout << " " << (*it).val << " " << (*it).var << endl;
+      }
    }
 }
 
