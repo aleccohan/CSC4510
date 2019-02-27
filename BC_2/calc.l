@@ -22,9 +22,13 @@ number	{digit}+
 {id}		{yylval.var_pos = yytext[0]-'a'; return(ID);}
 {number}	{yylval.val = atoi(yytext); return(NUMBER);}
 "\n"		{return(NEWLINE);}
-"+"		{return(PLUS);}
-"*"		{return(MULT);}
-"("		{return(LPAREN);}
-")"		{return(RPAREN);}
-"="		{return(EQUAL);}
+"+"			{return(PLUS);}
+"-"			{return(MINUS);}
+"*"			{return(MULT);}
+"/"			{return(DIVIDE);}
+"%"			{return(MOD);}
+"^"			{return(CARROT);}
+"("			{return(LPAREN);}
+")"			{return(RPAREN);}
+"="			{return(EQUAL);}
 %%
