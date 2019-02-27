@@ -64,6 +64,9 @@ dump
 2. quit
 	* Quit exits the current run of bc. 
 
+### Variable Names
+In BC1 variable names were only allowed to be one letter. Now variable names can be longer than one letter and can also involve numbers in the name. 
+
 ## Syntax
 ### Operators
 Currently, even though minus is in the code, it has not been implemented into the grammar. 
