@@ -1,7 +1,10 @@
 # BC2
 > Authors: Alec Cohan, Isaac Shore, Matthew Olker 
-> Date: 2/26/2019 
+>
+> Date: 2/26/2019
+> 
 > Class: CSC4510
+>
 > Source: molker/csc4510/BC_v2/
 
 The BC is an executable file created through a lexx and yacc compiler that is able to follow a hard coded in grammar. The grammar should be able to execute basic math equations. 
