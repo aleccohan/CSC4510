@@ -1,6 +1,6 @@
 /* 
   Calculator.cpp - A simple arithmetic interpreter.
-  Name: R. Shore
+  Names: Alec Cohan, Matthew Olker, Issac Shore
   Class: CSC-4510
   
   The program demonstrates two main components of
@@ -50,7 +50,7 @@ void expr();
 void term();
 void factor();
 void error(const char *);
-
+  
 /* Character classes */
 int charClass;
 #define LETTER 0
@@ -84,7 +84,7 @@ int main(void) {
       } while (nextToken != EOF);
  
    }
-}
+} 
 
 /*****************************************************/
 /* lookup - a function to lookup operators and parentheses
