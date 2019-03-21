@@ -1,19 +1,28 @@
 #include "general.h"
 
+//globals
+char lexeme[100];
+char nextChar;
+int lexLen;
+int charClass;
+
+int token;
+int nextToken;
+
 /******************************************************/
 /* main driver */
 int main(void) {
    /* Open the input data file and process its contents */
-   if ((in_fp = fopen("front.in", "r")) == NULL)
-      printf("ERROR - cannot open front.in \n");
-   else {
+   //if ((in_fp = fopen("front.in", "r")) == NULL)
+   //   printf("ERROR - cannot open front.in \n");
+   //else {
       getChar();
       do {
         lex();
         expr();
       } while (nextToken != EOF);
  
-   }
+   //}
 } 
 
 /*****************************************************/
@@ -75,7 +84,7 @@ void addChar()
 */
 void getChar() 
 {
-   if ((nextChar = getc(in_fp)) != EOF) {
+   if ((nextChar = getc(stdin)) != EOF) {
       if (isalpha(nextChar))
          charClass = LETTER;
       else if (isdigit(nextChar))
