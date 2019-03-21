@@ -12,20 +12,27 @@ int expr()
 
    /* Parse the first term */
    left = term();
+   //left = number;
+   cout << " IN EXPR left is = " << left << endl;
 
    /* As long as the next token is + or -, get
       the next token and parse the next term */
    while (nextToken == ADD_OP || nextToken == SUB_OP) {
       operation = nextToken;
       lex();
-      right = term();
+      right=term();
+      cout << " IN EXPR right is = " << right << endl;
       if(operation == ADD_OP)
          left+=right;
-      else
+      else if(operation == SUB_OP)
          left-=right;
+      else
+         error("expected - or +");
    }
    printf("Exit <expr>\n");
 
+   cout << endl;
+   cout << "exiting expr RETURNING " << left << endl;
    return left;
 } /* End of function expr */
 
@@ -41,20 +48,24 @@ int term()
    
    int right,left,operation;
 
-   left = factor();
+   left=factor();
    /* As long as the next token is * or /, get the
       next token and parse the next factor */
    while (nextToken == MULT_OP || nextToken == DIV_OP) {
       operation = nextToken;
       lex();
-      right = factor();
+      right=factor();
       if(operation == MULT_OP)
          left*=right;
-      else
+      else if(operation == DIV_OP)
          left/=right;
+      else
+         error("expected * or /");
    }
    printf("Exit <term>\n");
 
+   cout << endl;
+   cout << "exiting term RETURNING " << left << endl;
    return left;
 } /* End of function term */
 
@@ -70,25 +81,29 @@ int factor()
    printf("Enter <factor>\n");
    int val;
    /* Determine which RHS */
-   if (nextToken == IDENT || nextToken == INT_LIT)
+   if (nextToken == IDENT || nextToken == INT_LIT){
       /* Get the next token */
-      val = lex();
-
+      val = number;
+      lex();
+   }
    /* If the RHS is ( <expr> ), call lex to pass over the left 
       parenthesis, call expr and check for the right parenthesis */
    else if (nextToken == LEFT_PAREN) {
          lex();
-         expr();
+         val = expr();
          if (nextToken == RIGHT_PAREN)
             lex();
          else
-            error("Right without left paren");
+            error("left without right paren");
    } else {
    /* It was not an id, an integer literal, or a left
        parenthesis */
        error("expected an id, integer, or a left paren");
    } /* End of else */
-   printf("Exit <factor>\n");;
+   printf("Exit <factor>\n");
+   cout << endl;
+   cout << "exiting factor RETURNING " << val << endl;
+   return val;
 }/* End of function factor */
 
 void error(const char *message)

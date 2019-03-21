@@ -6,23 +6,23 @@ char nextChar;
 int lexLen;
 int charClass;
 
+int number;
+
 int token;
 int nextToken;
 
 /******************************************************/
 /* main driver */
-int main(void) {
-   /* Open the input data file and process its contents */
-   //if ((in_fp = fopen("front.in", "r")) == NULL)
-   //   printf("ERROR - cannot open front.in \n");
-   //else {
+int main(void)
+{  
+      int result;
       getChar();
       do {
         lex();
-        expr();
+        result = expr();
       } while (nextToken != EOF);
+      cout << "result " << result << endl;
  
-   //}
 } 
 
 /*****************************************************/
@@ -135,8 +135,13 @@ int lex()
                    getChar();
                    while (charClass == DIGIT) {
                       addChar();
+                      //at this point lexeme should have the full
+                      //number so I was thinking to do atoi and instead
+                      //of returning the nextToken, since I never see that
+                      //being used I will return the integer
                       getChar();
                    }
+                   number = atoi(lexeme);
                    nextToken = INT_LIT;
                    break;
 
@@ -159,5 +164,6 @@ int lex()
 
 
    printf("Next token is: %d, Next lexeme is %s\n", nextToken, lexeme);
+
    return nextToken;
 } 

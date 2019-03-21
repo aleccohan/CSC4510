@@ -25,6 +25,7 @@
  */
 
 #include<iostream>
+#include<cstdlib>
 #include<stdio.h>
 #include<ctype.h>
 using namespace std;
@@ -38,6 +39,7 @@ using namespace std;
 extern char lexeme [100];  
 extern char nextChar;     
 extern int lexLen;
+extern int number;
 //FILE *in_fp, *fopen();
 
 /* Function declarations */
