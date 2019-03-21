@@ -17,3 +17,6 @@
 
 #### BC2
 * BC2 takes BC1 and adds the rest of the operators involved with the Basic Calculator and organizes the data better by using a symbol table managed by hashing each variable.
+
+#### BC3
+* BC3 creates the same Basic Calculator from BC2 throuh the means of a recursive descent parser.  
