@@ -83,7 +83,10 @@ int factor()
    /* Determine which RHS */
    if (nextToken == IDENT || nextToken == INT_LIT){
       /* Get the next token */
-      val = number;
+      if(nextToken == INT_LIT)
+         val = number;
+      else
+         val = var_pos->val;
       lex();
    }
    /* If the RHS is ( <expr> ), call lex to pass over the left 
