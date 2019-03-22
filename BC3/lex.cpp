@@ -11,6 +11,10 @@ int number;
 int token;
 int nextToken;
 
+//symbol table stuff
+item * var_pos;
+symbol * s = new symbol();
+
 /******************************************************/
 /* main driver */
 int main(void)
@@ -129,6 +133,9 @@ int lex()
                       addChar();
                       getChar();
                    }
+                   //lookup the variable in the symbol table
+                   //and place the value into number
+                   var_pos = s->lookup(lexeme);
                    nextToken = IDENT;
                    break;
 

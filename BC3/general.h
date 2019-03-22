@@ -28,6 +28,8 @@
 #include<cstdlib>
 #include<stdio.h>
 #include<ctype.h>
+
+#include "symbol.h"
 using namespace std;
 
 //header guards
@@ -40,6 +42,9 @@ extern char lexeme [100];
 extern char nextChar;     
 extern int lexLen;
 extern int number;
+//symbol table stuff
+extern item * var_pos;
+extern symbol * s; 
 //FILE *in_fp, *fopen();
 
 /* Function declarations */
