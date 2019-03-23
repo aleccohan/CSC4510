@@ -19,4 +19,4 @@
 * BC2 takes BC1 and adds the rest of the operators involved with the Basic Calculator and organizes the data better by using a symbol table managed by hashing each variable.
 
 #### BC3
-* BC3 creates the same Basic Calculator from BC2 throuh the means of a recursive descent parser.  
+* BC3 is a new take on the same Basic Calculator, creating a recursive descent top-down parser in C++. It started out as an interpreter and the goal was to add to its functionality including the ability to do math.   
