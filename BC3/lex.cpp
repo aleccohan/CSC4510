@@ -23,7 +23,7 @@ int main(void)
       getChar();
       do {
         lex();
-        result = expr();
+        result = stmt_list();
       } while (nextToken != EOF);
       cout << "result " << result << endl;
  

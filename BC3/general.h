@@ -57,7 +57,7 @@ void getChar();
 void getNonBlank();
 int lex();
 
-void stmt_list();
+int stmt_list();
 int stmt();
 int expr();
 int term();

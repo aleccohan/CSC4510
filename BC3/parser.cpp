@@ -4,22 +4,22 @@
  *
  * <stmt_list> → {<stmt_list>} <stmt> NEWLINE
  */
-void stmt_list() 
+int stmt_list() 
 {
    printf("Enter <stmt_list>\n");
 
    int right,left,operation;
 
    while ( nextToken != NEWLINE ) {
-   	left = stmt_list();
+   	left = stmt();
    	lex();
    }
-   right = stmt();
 
    printf("Exit <stmt_list>\n");
 
    cout << endl;
    cout << "exiting stmt_list RETURNING " << left << endl;
+   return right;
 } /* End of function stmt_list */
 
 /* stmt
