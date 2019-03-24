@@ -18,8 +18,12 @@
      nextToken holds the type
   2) A recursive descent parser
      The Grammar - EBNF description
+     <stmt_list> → {<stmt_list>} <stmt> NEWLINE
+     <stmt> → {id = } <expr> | DUMP | QUIT
      <expr> → <term> {(+ | -) <term>}
      <term> → <factor> {(* | /) <factor>}
+     <sfactor> → - <efactor>
+     <efactor> → {<efactor> ^} <factor>
      <factor> → id | int_constant | ( <expr>  ) 
      NOTE: the recusive descent starts at <expr>     
  */
@@ -53,8 +57,12 @@ void getChar();
 void getNonBlank();
 int lex();
 
+void stmt_list();
+int stmt();
 int expr();
 int term();
+int sfactor();
+int efactor();
 int factor();
 void error(const char *);
   
@@ -77,6 +85,9 @@ extern int nextToken;
 #define LEFT_PAREN 25
 #define RIGHT_PAREN 26
 #define EXP_OP 27
+#define NEWLINE 28
+#define DUMP 29
+#define QUIT 30
 
 //header guards
 #endif
