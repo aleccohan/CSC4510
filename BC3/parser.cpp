@@ -19,7 +19,7 @@ int stmt_list()
 
    cout << endl;
    cout << "exiting stmt_list RETURNING " << left << endl;
-   return right;
+   return left;
 } /* End of function stmt_list */
 
 /* stmt
@@ -35,18 +35,24 @@ int stmt()
    	s->dump();
    } else if ( nextToken == QUIT ) {
    	exit(1);
-   } else if ( nextToken == IDENT ) {
+   /*} else if ( nextToken == IDENT ) {
    	var_pos = s->lookup(lexeme);
    	lex();
    	if ( nextToken == ASSIGN_OP ){
-   		var_pos->val = expr();
+                lex();
+   		var_pos->val = left = expr();
+                
    	} 
       else{
+         lex();
          left = expr();
       }
    } else if ( nextToken == INT_LIT ){
       left = expr();
-   } else {
+   */} else if(nextToken == IDENT || nextToken == INT_LIT){
+      left = expr();
+   }
+   else {
    	error("expected DUMP, QUIT, assignment, or expression");
    }
 
@@ -137,13 +143,13 @@ int sfactor()
    printf("Enter <sfactor>\n");
    int val;
    /* Determine which RHS */
-  	if ( nextToken == SUB_OP ) {
+   if ( nextToken == SUB_OP ) {
       lex();
       val = efactor();
-  		val = -1 * val;
-  	} else {
-  		val = efactor();
-  	}
+      val = -1 * val;
+   } else {
+      val = efactor();
+   }
    printf("Exit <sfactor>\n");
    cout << endl;
    cout << "exiting sfactor RETURNING " << val << endl;
@@ -196,6 +202,14 @@ int pfactor()
       else
          val = var_pos->val;
       lex();
+      //if assign op do expr
+      // var_pos->val = expr();
+      if(nextToken == ASSIGN_OP){
+         item * temp;
+         temp = var_pos;
+         lex();
+         temp->val = val = expr();
+      }
    }
    /* If the RHS is ( <expr> ), call lex to pass over the left 
       parenthesis, call expr and check for the right parenthesis */

@@ -23,9 +23,10 @@ int main(void)
       getChar();
       do {
         lex();
-        result = stmt_list();
+        result = stmt();
+        cout << "result " << result << endl;
+        getChar();
       } while (nextToken != EOF);
-      cout << "result " << result << endl;
  
 } 
 
@@ -63,6 +64,10 @@ int lookup(char ch)
                 addChar();
                 nextToken = EXP_OP;
                 break;
+      case '=':
+                addChar();
+                nextToken = ASSIGN_OP;
+                break;
       default:
                 addChar();
                 nextToken = EOF;
@@ -97,6 +102,8 @@ void getChar()
          charClass = LETTER;
       else if (isdigit(nextChar))
          charClass = DIGIT;
+      else if (nextChar == '\n')
+         charClass = NEWLINE;
       else 
          charClass = OPERATOR;
    } else
@@ -110,7 +117,7 @@ void getChar()
 */
 void getNonBlank() 
 {
-   while (isspace(nextChar))
+   while (isspace(nextChar) && nextChar != '\n')
       getChar();
 }
 
@@ -162,6 +169,15 @@ int lex()
                    lookup(nextChar);
                    getChar();
                    break;
+
+      /*new line to end a stmt*/
+      case NEWLINE:
+                  nextToken = NEWLINE;
+                  lexeme[0] = 'E';
+                  lexeme[1] = 'N';
+                  lexeme[2] = 'D';
+                  lexeme[3] = 'L';
+                  break;
       /* EOF */
       case EOF:
                    nextToken = EOF;
