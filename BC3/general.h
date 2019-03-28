@@ -32,6 +32,7 @@
 #include<cstdlib>
 #include<stdio.h>
 #include<ctype.h>
+#include<cmath>
 
 #include "symbol.h"
 using namespace std;
@@ -63,7 +64,7 @@ int expr();
 int term();
 int sfactor();
 int efactor();
-int factor();
+int pfactor();
 void error(const char *);
   
 /* Character classes */
