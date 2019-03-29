@@ -6,6 +6,7 @@ char nextChar;
 int lexLen;
 int charClass;
 
+char result[500];
 int number;
 
 int token;
@@ -18,12 +19,13 @@ symbol * s = new symbol();
 /* main driver */
 int main(void)
 {  
-      int result;
       getChar();
       do {
         lex();
-        result = stmt();
-        cout << "result " << result << endl;
+        strcat(result,lexeme);
+        stmt();
+        cout << "    " << result << endl;
+        result[0] = '\0';
         getChar();
       } while (nextToken != EOF);
  
@@ -180,10 +182,7 @@ int lex()
       /*new line to end a stmt*/
       case NEWLINE:
                   nextToken = NEWLINE;
-                  lexeme[0] = 'E';
-                  lexeme[1] = 'N';
-                  lexeme[2] = 'D';
-                  lexeme[3] = 'L';
+                  lexeme[0] = '=';
                   break;
       /* EOF */
       case EOF:

@@ -1,32 +1,10 @@
 #include "general.h"
 
-/* stmt_list
- *
- * <stmt_list> → {<stmt_list>} <stmt> NEWLINE
- */
-int stmt_list() 
-{
-   printf("Enter <stmt_list>\n");
-
-   int right,left,operation;
-
-   while ( nextToken != NEWLINE ) {
-   	left = stmt();
-   	lex();
-   }
-
-   printf("Exit <stmt_list>\n");
-
-   cout << endl;
-   cout << "exiting stmt_list RETURNING " << left << endl;
-   return left;
-} /* End of function stmt_list */
-
 /* stmt
  *
  * <stmt> → {id = } <expr> | DUMP | QUIT
  */
-int stmt() 
+void stmt() 
 {
    printf("Enter <stmt>\n");
    int left;
@@ -35,9 +13,14 @@ int stmt()
    	s->dump();
    } else if ( nextToken == QUIT ) {
    	exit(1);
+   //if the next token is not dump or quit, you need to check
+   //for any of the possible ways an expr can begin
    } else if(nextToken == IDENT || nextToken == INT_LIT
              || nextToken == SUB_OP || nextToken == LEFT_PAREN){
       left = expr();
+      char temp[100];
+      sprintf(temp,"%d",left);
+      strcat(result,temp);
    }
    else {
    	error("expected DUMP, QUIT, assignment, or expression");
@@ -47,7 +30,6 @@ int stmt()
 
    cout << endl;
    cout << "exiting stmt RETURNING " << left << endl;
-   return left;
 } /* End of function stmt_list */
 
 /* expr
@@ -70,6 +52,7 @@ int expr()
    while (nextToken == ADD_OP || nextToken == SUB_OP) {
       operation = nextToken;
       lex();
+      strcat(result,lexeme);
       right=term();
       cout << " IN EXPR right is = " << right << endl;
       if(operation == ADD_OP)
@@ -104,6 +87,7 @@ int term()
    while (nextToken == MULT_OP || nextToken == DIV_OP) {
       operation = nextToken;
       lex();
+      strcat(result,lexeme);
       right=sfactor();
       if(operation == MULT_OP)
          left*=right;
@@ -132,6 +116,7 @@ int sfactor()
    /* Determine which RHS */
    if ( nextToken == SUB_OP ) {
       lex();
+      strcat(result,lexeme);
       val = efactor();
       val = -1 * val;
    } else {
@@ -157,9 +142,11 @@ int efactor()
    left = pfactor();
    while( nextToken == EXP_OP ) {
       lex();
+      strcat(result,lexeme);
       right = pfactor();
       left = pow(left,right);
       lex();
+      strcat(result,lexeme);
    }
 
    printf("Exit <efactor>\n");
@@ -181,29 +168,45 @@ int pfactor()
    item * var_pos;
 
    /* Determine which RHS */
+   //if the next token is an ID we need to check to see if
+   //the token following that is an assign op
    if (nextToken == IDENT){
       var_pos = s->lookup(lexeme);
       val = var_pos->val;
       lex();
+      strcat(result,lexeme);
       if(nextToken == ASSIGN_OP){
          lex();
+         strcat(result,lexeme);
          var_pos->val = val = expr();
       }
     }
+    //if the token following a number is an assignment then
+    //we should try to stop execution of the statement.
+    //however if the statement is something like a=b+3=10
+    //then a=b+3 will still be executed normally.
     else if(nextToken == INT_LIT){
          val = number;
          lex();
+         strcat(result,lexeme);
          if(nextToken == ASSIGN_OP){
             error("next expecting assign op after int literal");
+            while(nextToken != NEWLINE){
+               lex();
+               strcat(result,lexeme);
+            }
          }
    }
    /* If the RHS is ( <expr> ), call lex to pass over the left 
       parenthesis, call expr and check for the right parenthesis */
    else if (nextToken == LEFT_PAREN) {
          lex();
+         strcat(result,lexeme);
          val = expr();
-         if (nextToken == RIGHT_PAREN)
+         if (nextToken == RIGHT_PAREN){
             lex();
+            strcat(result,lexeme);
+         }
          else
             error("left without right paren");
    } else {
