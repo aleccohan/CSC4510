@@ -12,7 +12,6 @@ int token;
 int nextToken;
 
 //symbol table stuff
-item * var_pos;
 symbol * s = new symbol();
 
 /******************************************************/
@@ -140,10 +139,18 @@ int lex()
                       addChar();
                       getChar();
                    }
+                   //check to see if the word is dump or quit
+                   if(strcmp(lexeme,"quit")==0){
+                      nextToken = QUIT;
+                   }
+                   else if(strcmp(lexeme,"dump")==0){
+                      nextToken = DUMP;
+                   }
                    //lookup the variable in the symbol table
                    //and place the value into number
-                   var_pos = s->lookup(lexeme);
-                   nextToken = IDENT;
+                   else{
+                      nextToken = IDENT;
+                   }
                    break;
 
       /* Parse integer literals - once you find the first

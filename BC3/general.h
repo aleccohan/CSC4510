@@ -33,6 +33,7 @@
 #include<stdio.h>
 #include<ctype.h>
 #include<cmath>
+#include<cstring>
 
 #include "symbol.h"
 using namespace std;
@@ -48,7 +49,6 @@ extern char nextChar;
 extern int lexLen;
 extern int number;
 //symbol table stuff
-extern item * var_pos;
 extern symbol * s; 
 //FILE *in_fp, *fopen();
 

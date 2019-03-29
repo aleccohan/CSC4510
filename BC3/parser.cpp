@@ -35,21 +35,8 @@ int stmt()
    	s->dump();
    } else if ( nextToken == QUIT ) {
    	exit(1);
-   /*} else if ( nextToken == IDENT ) {
-   	var_pos = s->lookup(lexeme);
-   	lex();
-   	if ( nextToken == ASSIGN_OP ){
-                lex();
-   		var_pos->val = left = expr();
-                
-   	} 
-      else{
-         lex();
-         left = expr();
-      }
-   } else if ( nextToken == INT_LIT ){
-      left = expr();
-   */} else if(nextToken == IDENT || nextToken == INT_LIT){
+   } else if(nextToken == IDENT || nextToken == INT_LIT
+             || nextToken == SUB_OP || nextToken == LEFT_PAREN){
       left = expr();
    }
    else {
@@ -167,16 +154,13 @@ int efactor()
    printf("Enter <efactor>\n");
    int left, right, operation;
    /* Determine which RHS */
-   if ( nextToken == EXP_OP) {
-     	while( nextToken == EXP_OP ) {
-     		left = pfactor();
-     		lex();
-     		right = pfactor();
-     		left = pow(left,right);
-     	}
-   } // we should ABSOLUTELY check for something else here
-   else
-      left = pfactor();
+   left = pfactor();
+   while( nextToken == EXP_OP ) {
+      lex();
+      right = pfactor();
+      left = pow(left,right);
+      lex();
+   }
 
    printf("Exit <efactor>\n");
    cout << endl;
@@ -194,22 +178,24 @@ int pfactor()
 {
    printf("Enter <pfactor>\n");
    int val;
+   item * var_pos;
+
    /* Determine which RHS */
-   if (nextToken == IDENT || nextToken == INT_LIT){
-      /* Get the next token */
-      if(nextToken == INT_LIT)
-         val = number;
-      else
-         val = var_pos->val;
+   if (nextToken == IDENT){
+      var_pos = s->lookup(lexeme);
+      val = var_pos->val;
       lex();
-      //if assign op do expr
-      // var_pos->val = expr();
       if(nextToken == ASSIGN_OP){
-         item * temp;
-         temp = var_pos;
          lex();
-         temp->val = val = expr();
+         var_pos->val = val = expr();
       }
+    }
+    else if(nextToken == INT_LIT){
+         val = number;
+         lex();
+         if(nextToken == ASSIGN_OP){
+            error("next expecting assign op after int literal");
+         }
    }
    /* If the RHS is ( <expr> ), call lex to pass over the left 
       parenthesis, call expr and check for the right parenthesis */
