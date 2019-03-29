@@ -32,7 +32,7 @@ bc < input.txt
 ```
 or 
 ```bash
-bc
+calc
 5 + 6
 =11
 ```
