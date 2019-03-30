@@ -22,7 +22,6 @@ int main(void)
       getChar();
       do {
         lex();
-        strcat(result,lexeme);
         stmt();
         cout << "    " << result << endl;
         result[0] = '\0';
@@ -182,7 +181,10 @@ int lex()
       /*new line to end a stmt*/
       case NEWLINE:
                   nextToken = NEWLINE;
-                  lexeme[0] = '=';
+                  lexeme[0] = 'E';
+                  lexeme[1] = 'N';
+                  lexeme[2] = 'D';
+                  lexeme[3] = 'L';
                   break;
       /* EOF */
       case EOF:

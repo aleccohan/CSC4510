@@ -8,6 +8,7 @@ void stmt()
 {
    printf("Enter <stmt>\n");
    int left;
+   item * var_pos;
 
    if ( nextToken == DUMP ) {
    	s->dump();
@@ -15,12 +16,46 @@ void stmt()
    	exit(1);
    //if the next token is not dump or quit, you need to check
    //for any of the possible ways an expr can begin
-   } else if(nextToken == IDENT || nextToken == INT_LIT
-             || nextToken == SUB_OP || nextToken == LEFT_PAREN){
+   } else if(nextToken == IDENT){
+      var_pos = s->lookup(lexeme);
+      lex();
+      if(nextToken == ASSIGN_OP){
+         lex();
+         left = expr();
+         var_pos->val = left;
+      }
+      else if(nextToken == ADD_OP || nextToken == MULT_OP ||
+              nextToken == SUB_OP || nextToken == DIV_OP
+             || nextToken == EXP_OP){
+         cout << "------------ lexeme[0] is " << lexeme[0] << endl;
+         ungetc(lexeme[0],stdin);
+         cout << "-------------- var length" << var_pos->var.length() << endl;
+         for(int i=(var_pos->var).length()-1;i>=0;i--){
+            ungetc(var_pos->var[i],stdin);
+         }
+         getChar();
+         lex();
+         left=expr();
+         char temp[100];
+         sprintf(temp,"%d",left);
+         if(result[strlen(result)-1] == '=')
+            strcat(result,temp);
+         else{
+            strcat(result,"=");
+            strcat(result,temp);
+         }
+      }
+   } else if(nextToken == INT_LIT || nextToken == LEFT_PAREN){
       left = expr();
       char temp[100];
       sprintf(temp,"%d",left);
-      strcat(result,temp);
+      if(result[strlen(result)-1] == '=')
+         strcat(result,temp);
+      else{
+         strcat(result,"=");
+         strcat(result,temp);
+      }
+        
    }
    else {
    	error("expected DUMP, QUIT, assignment, or expression");
@@ -52,7 +87,6 @@ int expr()
    while (nextToken == ADD_OP || nextToken == SUB_OP) {
       operation = nextToken;
       lex();
-      strcat(result,lexeme);
       right=term();
       cout << " IN EXPR right is = " << right << endl;
       if(operation == ADD_OP)
@@ -87,7 +121,6 @@ int term()
    while (nextToken == MULT_OP || nextToken == DIV_OP) {
       operation = nextToken;
       lex();
-      strcat(result,lexeme);
       right=sfactor();
       if(operation == MULT_OP)
          left*=right;
@@ -116,7 +149,6 @@ int sfactor()
    /* Determine which RHS */
    if ( nextToken == SUB_OP ) {
       lex();
-      strcat(result,lexeme);
       val = efactor();
       val = -1 * val;
    } else {
@@ -142,11 +174,9 @@ int efactor()
    left = pfactor();
    while( nextToken == EXP_OP ) {
       lex();
-      strcat(result,lexeme);
       right = pfactor();
       left = pow(left,right);
       lex();
-      strcat(result,lexeme);
    }
 
    printf("Exit <efactor>\n");
@@ -174,12 +204,6 @@ int pfactor()
       var_pos = s->lookup(lexeme);
       val = var_pos->val;
       lex();
-      strcat(result,lexeme);
-      if(nextToken == ASSIGN_OP){
-         lex();
-         strcat(result,lexeme);
-         var_pos->val = val = expr();
-      }
     }
     //if the token following a number is an assignment then
     //we should try to stop execution of the statement.
@@ -188,12 +212,10 @@ int pfactor()
     else if(nextToken == INT_LIT){
          val = number;
          lex();
-         strcat(result,lexeme);
          if(nextToken == ASSIGN_OP){
             error("next expecting assign op after int literal");
             while(nextToken != NEWLINE){
                lex();
-               strcat(result,lexeme);
             }
          }
    }
@@ -201,11 +223,9 @@ int pfactor()
       parenthesis, call expr and check for the right parenthesis */
    else if (nextToken == LEFT_PAREN) {
          lex();
-         strcat(result,lexeme);
          val = expr();
          if (nextToken == RIGHT_PAREN){
             lex();
-            strcat(result,lexeme);
          }
          else
             error("left without right paren");

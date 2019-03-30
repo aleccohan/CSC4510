@@ -18,12 +18,12 @@
      nextToken holds the type
   2) A recursive descent parser
      The Grammar - EBNF description
-     <stmt> → <expr> | DUMP | QUIT
+     <stmt> → id = <expr> | <expr> | DUMP | QUIT
      <expr> → <term> {(+ | -) <term>}
-     <term> → <factor> {(* | /) <factor>}
+     <term> → <sfactor> {(* | /) <sfactor>}
      <sfactor> → - <efactor>
-     <efactor> → {<efactor> ^} <factor>
-     <factor> → id |id = <expr> | int_constant | ( <expr>  ) 
+     <efactor> → {<efactor> ^} <efactor>
+     <pfactor> → id |id = <expr> | int_constant | ( <expr>  ) 
      NOTE: the recusive descent starts at <expr>     
  */
 
