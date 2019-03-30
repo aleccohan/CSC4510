@@ -18,20 +18,27 @@ void stmt()
    //for any of the possible ways an expr can begin
    } else if(nextToken == IDENT){
       var_pos = s->lookup(lexeme);
+      char temp2[100];
+      strcpy(temp2,lexeme);
       lex();
       if(nextToken == ASSIGN_OP){
+         strcat(result,temp2);
          lex();
          left = expr();
          var_pos->val = left;
+         strcat(result,"=");
+         sprintf(temp2,"%d",left);
+         strcat(result,temp2);
       }
       else if(nextToken == ADD_OP || nextToken == MULT_OP ||
               nextToken == SUB_OP || nextToken == DIV_OP
              || nextToken == EXP_OP){
          cout << "------------ lexeme[0] is " << lexeme[0] << endl;
-         ungetc(lexeme[0],stdin);
+         ungetc((int)nextChar,stdin);
+         ungetc((int)lexeme[0],stdin);
          cout << "-------------- var length" << var_pos->var.length() << endl;
          for(int i=(var_pos->var).length()-1;i>=0;i--){
-            ungetc(var_pos->var[i],stdin);
+            ungetc((int)var_pos->var[i],stdin);
          }
          getChar();
          lex();
@@ -176,7 +183,6 @@ int efactor()
       lex();
       right = pfactor();
       left = pow(left,right);
-      lex();
    }
 
    printf("Exit <efactor>\n");
