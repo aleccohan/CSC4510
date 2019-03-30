@@ -54,7 +54,7 @@ void symbol::dump()
  */
 item* symbol::insert(string word,int hash_pos)
 {
-   cout << "Called insert with " << word << endl;
+   //cout << "Called insert with " << word << endl;
    item newItem = item();
    newItem.var = word;
    table[hash_pos].push_back(newItem);

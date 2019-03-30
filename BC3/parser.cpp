@@ -6,7 +6,7 @@
  */
 void stmt() 
 {
-   printf("Enter <stmt>\n");
+   //printf("Enter <stmt>\n");
    int left;
    item * var_pos;
 
@@ -29,14 +29,18 @@ void stmt()
          strcat(result,"=");
          sprintf(temp2,"%d",left);
          strcat(result,temp2);
+      } else if(nextToken == NEWLINE){
+         strcat(result,"=");
+         sprintf(temp2,"%d",var_pos->val);
+         strcat(result,temp2);
       }
       else if(nextToken == ADD_OP || nextToken == MULT_OP ||
               nextToken == SUB_OP || nextToken == DIV_OP
              || nextToken == EXP_OP){
-         cout << "------------ lexeme[0] is " << lexeme[0] << endl;
+         //cout << "------------ lexeme[0] is " << lexeme[0] << endl;
          ungetc((int)nextChar,stdin);
          ungetc((int)lexeme[0],stdin);
-         cout << "-------------- var length" << var_pos->var.length() << endl;
+         //cout << "-------------- var length" << var_pos->var.length() << endl;
          for(int i=(var_pos->var).length()-1;i>=0;i--){
             ungetc((int)var_pos->var[i],stdin);
          }
@@ -68,10 +72,10 @@ void stmt()
    	error("expected DUMP, QUIT, assignment, or expression");
    }
 
-   printf("Exit <stmt>\n");
+   //printf("Exit <stmt>\n");
 
-   cout << endl;
-   cout << "exiting stmt RETURNING " << left << endl;
+   //cout << endl;
+   //cout << "exiting stmt RETURNING " << left << endl;
 } /* End of function stmt_list */
 
 /* expr
@@ -80,14 +84,13 @@ void stmt()
  */
 int expr() 
 {
-   printf("Enter <expr>\n");
+   //printf("Enter <expr>\n");
 
    int right,left,operation;
 
    /* Parse the first term */
    left = term();
-   //left = number;
-   cout << " IN EXPR left is = " << left << endl;
+   //cout << " IN EXPR left is = " << left << endl;
 
    /* As long as the next token is + or -, get
       the next token and parse the next term */
@@ -95,7 +98,6 @@ int expr()
       operation = nextToken;
       lex();
       right=term();
-      cout << " IN EXPR right is = " << right << endl;
       if(operation == ADD_OP)
          left+=right;
       else if(operation == SUB_OP)
@@ -103,10 +105,8 @@ int expr()
       else
          error("expected - or +");
    }
-   printf("Exit <expr>\n");
+   //printf("Exit <expr>\n");
 
-   cout << endl;
-   cout << "exiting expr RETURNING " << left << endl;
    return left;
 } /* End of function expr */
 
@@ -117,7 +117,7 @@ int expr()
  */
 int term() 
 {
-   printf("Enter <term>\n");
+   //printf("Enter <term>\n");
    /* Parse the first factor */
    
    int right,left,operation;
@@ -136,10 +136,8 @@ int term()
       else
          error("expected * or /");
    }
-   printf("Exit <term>\n");
+   //printf("Exit <term>\n");
 
-   cout << endl;
-   cout << "exiting term RETURNING " << left << endl;
    return left;
 } /* End of function term */
 
@@ -151,7 +149,7 @@ int term()
  */
 int sfactor() 
 {
-   printf("Enter <sfactor>\n");
+   //printf("Enter <sfactor>\n");
    int val;
    /* Determine which RHS */
    if ( nextToken == SUB_OP ) {
@@ -161,9 +159,6 @@ int sfactor()
    } else {
       val = efactor();
    }
-   printf("Exit <sfactor>\n");
-   cout << endl;
-   cout << "exiting sfactor RETURNING " << val << endl;
    return val;
 }/* End of function efactor */
 
@@ -175,7 +170,7 @@ int sfactor()
  */
 int efactor() 
 {
-   printf("Enter <efactor>\n");
+   //printf("Enter <efactor>\n");
    int left, right, operation;
    /* Determine which RHS */
    left = pfactor();
@@ -185,9 +180,9 @@ int efactor()
       left = pow(left,right);
    }
 
-   printf("Exit <efactor>\n");
-   cout << endl;
-   cout << "exiting efactor RETURNING " << left << endl;
+   //printf("Exit <efactor>\n");
+   //cout << endl;
+   //cout << "exiting efactor RETURNING " << left << endl;
    return left;
 }/* End of function efactor */
 
@@ -199,7 +194,7 @@ int efactor()
  */
 int pfactor() 
 {
-   printf("Enter <pfactor>\n");
+   //printf("Enter <pfactor>\n");
    int val;
    item * var_pos;
 
@@ -240,9 +235,8 @@ int pfactor()
        parenthesis */
        error("expected an id, integer, or a left paren");
    } /* End of else */
-   printf("Exit <pfactor>\n");
-   cout << endl;
-   cout << "exiting pfactor RETURNING " << val << endl;
+   //printf("Exit <pfactor>\n");
+
    return val;
 }/* End of function pfactor */
 
