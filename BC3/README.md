@@ -32,7 +32,7 @@ bc < input.txt
 ```
 or 
 ```bash
-bc
+calc
 5 + 6
 =11
 ```
@@ -41,6 +41,8 @@ bc
 ### Solely C++
 Past versions of our BC has included using lexx, yacc, or bison to create most of the functionality centered around a grammar we programmed in. This version utilizes only C++ to do all of the analysis and math on it's own, following a similar method. 
 
+### Different Method
+BC and BC2 were both good examples of ways to accomplish the same goal while using a bottom-up parser. BC3 differs from both by solving the same problem using a recursive descept top-down parser. What this means is the program will recursively implement useable non-terminals of the grammar until it gets to the desired answer, and going about it from the top-to-bottom of a parse tree.
 
 ## Syntax
 ### Operators
