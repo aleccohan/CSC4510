@@ -20,3 +20,6 @@
 
 #### BC3
 * BC3 is a new take on the same Basic Calculator, creating a recursive descent top-down parser in C++. It started out as an interpreter and the goal was to add to its functionality including the ability to do math.   
+
+#### BC4
+* Final version of the bc project.  In this version we will be exploring what it takes to extend the grammar to include if statements and while loops to the grammar.  This will be a little more challenging and will require some thought and discussion.   
