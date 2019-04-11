@@ -12,6 +12,11 @@ int number;
 int token;
 int nextToken;
 
+//buffer things
+string buffer;
+int cur_pos = 0;
+int max_pos = 0;
+
 //symbol table stuff
 symbol * s = new symbol();
 
@@ -72,6 +77,18 @@ int lookup(char ch)
                 addChar();
                 nextToken = MOD_OP;
                 break;
+      case '!':
+                addChar();
+                nextToken = BANG_OP;
+                break;
+      case '<':
+                addChar();
+                nextToken = LESS_OP;
+                break;
+      case '>':
+                addChar();
+                nextToken = MORE_OP;
+                break;
       default:
                 addChar();
                 nextToken = EOF;
@@ -101,7 +118,25 @@ void addChar()
 */
 void getChar() 
 {
-   if ((nextChar = getc(stdin)) != EOF) {
+   /*either get a char from the buffer, or
+    *get a char from stdin
+   */
+   if(cur_pos < max_pos){
+      nextChar = buffer[cur_pos];
+      cur_pos++;
+      if (isalpha(nextChar))
+         charClass = LETTER;
+      else if (isdigit(nextChar))
+         charClass = DIGIT;
+      else if (nextChar == '\n')
+         charClass = NEWLINE;
+      else 
+         charClass = OPERATOR;
+   } 
+   else if((nextChar = getc(stdin)) != EOF) {
+      buffer[max_pos] = nextChar;
+      max_pos++;
+      cur_pos++;
       if (isalpha(nextChar))
          charClass = LETTER;
       else if (isdigit(nextChar))
@@ -150,6 +185,30 @@ int lex()
                    }
                    else if(strcmp(lexeme,"dump")==0){
                       nextToken = DUMP;
+                   }
+                   else if(strcmp(lexeme,"if")==0){
+                      nextToken = IF;
+                   }
+                   else if(strcmp(lexeme,"then")==0){
+                      nextToken = THEN;
+                   }
+                   else if(strcmp(lexeme,"fi")==0){
+                      nextToken = FI;
+                   }
+                   else if(strcmp(lexeme,"else")==0){
+                      nextToken = ELSE;
+                   }
+                   else if(strcmp(lexeme,"while")==0){
+                      nextToken = WHILE;
+                   }
+                   else if(strcmp(lexeme,"do")==0){
+                      nextToken = DO;
+                   }
+                   else if(strcmp(lexeme,"done")==0){
+                      nextToken = DONE;
+                   }
+                   else if(strcmp(lexeme,"print")==0){
+                      nextToken = PRINT;
                    }
                    //lookup the variable in the symbol table
                    //and place the value into number

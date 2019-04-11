@@ -33,6 +33,7 @@
 #include<ctype.h>
 #include<cmath>
 #include<cstring>
+#include<string.h>
 
 #include "symbol.h"
 using namespace std;
@@ -52,6 +53,12 @@ extern char result[500];
 extern symbol * s; 
 //FILE *in_fp, *fopen();
 
+/* Buffer Items
+ */
+extern string buffer;
+extern int cur_pos;
+extern int max_pos;
+
 /* Function declarations */
 void addChar();
 void getChar();
@@ -65,6 +72,7 @@ int term();
 int sfactor();
 int efactor();
 int pfactor();
+bool cond();
 void error(const char *);
   
 /* Character classes */
@@ -90,6 +98,18 @@ extern int nextToken;
 #define DUMP 29
 #define QUIT 30
 #define MOD_OP 31
+#define BANG_OP 32
+#define LESS_OP 33
+#define MORE_OP 34
+#define IF 35
+#define THEN 36
+#define FI 37
+#define ELSE 38
+#define WHILE 39
+#define DO 40
+#define DONE 41
+#define PRINT 42
+#define SHARP_OP 43
 
 //header guards
 #endif
