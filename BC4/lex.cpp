@@ -68,6 +68,10 @@ int lookup(char ch)
                 addChar();
                 nextToken = ASSIGN_OP;
                 break;
+      case '%':
+                addChar();
+                nextToken = MOD_OP;
+                break;
       default:
                 addChar();
                 nextToken = EOF;
@@ -151,6 +155,7 @@ int lex()
                    //and place the value into number
                    else{
                       nextToken = IDENT;
+                      s->insert(lexeme);
                    }
                    break;
 

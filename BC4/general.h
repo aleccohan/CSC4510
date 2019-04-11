@@ -89,6 +89,7 @@ extern int nextToken;
 #define NEWLINE 28
 #define DUMP 29
 #define QUIT 30
+#define MOD_OP 31
 
 //header guards
 #endif

@@ -6,7 +6,6 @@
  */
 void stmt() 
 {
-   //printf("Enter <stmt>\n");
    int left;
    item * var_pos;
 
@@ -29,53 +28,12 @@ void stmt()
          strcat(result,"=");
          sprintf(temp2,"%d",left);
          strcat(result,temp2);
-      } else if(nextToken == NEWLINE){
-         strcat(result,"=");
-         sprintf(temp2,"%d",var_pos->val);
-         strcat(result,temp2);
-      }
-      else if(nextToken == ADD_OP || nextToken == MULT_OP ||
-              nextToken == SUB_OP || nextToken == DIV_OP
-             || nextToken == EXP_OP){
-         //cout << "------------ lexeme[0] is " << lexeme[0] << endl;
-         ungetc((int)nextChar,stdin);
-         ungetc((int)lexeme[0],stdin);
-         //cout << "-------------- var length" << var_pos->var.length() << endl;
-         for(int i=(var_pos->var).length()-1;i>=0;i--){
-            ungetc((int)var_pos->var[i],stdin);
-         }
-         getChar();
-         lex();
-         left=expr();
-         char temp[100];
-         sprintf(temp,"%d",left);
-         if(result[strlen(result)-1] == '=')
-            strcat(result,temp);
-         else{
-            strcat(result,"=");
-            strcat(result,temp);
-         }
-      }
-   } else if(nextToken == INT_LIT || nextToken == LEFT_PAREN){
-      left = expr();
-      char temp[100];
-      sprintf(temp,"%d",left);
-      if(result[strlen(result)-1] == '=')
-         strcat(result,temp);
-      else{
-         strcat(result,"=");
-         strcat(result,temp);
-      }
-        
+      }else
+         error("expected equals after Id");
    }
    else {
    	error("expected DUMP, QUIT, assignment, or expression");
    }
-
-   //printf("Exit <stmt>\n");
-
-   //cout << endl;
-   //cout << "exiting stmt RETURNING " << left << endl;
 } /* End of function stmt_list */
 
 /* expr
@@ -84,13 +42,10 @@ void stmt()
  */
 int expr() 
 {
-   //printf("Enter <expr>\n");
-
    int right,left,operation;
 
    /* Parse the first term */
    left = term();
-   //cout << " IN EXPR left is = " << left << endl;
 
    /* As long as the next token is + or -, get
       the next token and parse the next term */
@@ -105,7 +60,6 @@ int expr()
       else
          error("expected - or +");
    }
-   //printf("Exit <expr>\n");
 
    return left;
 } /* End of function expr */
@@ -117,26 +71,29 @@ int expr()
  */
 int term() 
 {
-   //printf("Enter <term>\n");
    /* Parse the first factor */
-   
    int right,left,operation;
 
    left=sfactor();
    /* As long as the next token is * or /, get the
       next token and parse the next factor */
-   while (nextToken == MULT_OP || nextToken == DIV_OP) {
+   while (nextToken == MULT_OP || nextToken == DIV_OP || nextToken == MOD_OP) {
       operation = nextToken;
       lex();
       right=sfactor();
-      if(operation == MULT_OP)
+      if(operation == MULT_OP){
          left*=right;
-      else if(operation == DIV_OP)
-         left/=right;
+      }else if(operation == DIV_OP){
+         if(right !=0){
+            left/=right;
+         } else
+            error("division by zero");
+      }else if(operation == MOD_OP){
+         left%=right;
+      }
       else
          error("expected * or /");
    }
-   //printf("Exit <term>\n");
 
    return left;
 } /* End of function term */
@@ -149,7 +106,6 @@ int term()
  */
 int sfactor() 
 {
-   //printf("Enter <sfactor>\n");
    int val;
    /* Determine which RHS */
    if ( nextToken == SUB_OP ) {
@@ -170,7 +126,6 @@ int sfactor()
  */
 int efactor() 
 {
-   //printf("Enter <efactor>\n");
    int left, right, operation;
    /* Determine which RHS */
    left = pfactor();
@@ -180,9 +135,6 @@ int efactor()
       left = pow(left,right);
    }
 
-   //printf("Exit <efactor>\n");
-   //cout << endl;
-   //cout << "exiting efactor RETURNING " << left << endl;
    return left;
 }/* End of function efactor */
 
@@ -194,7 +146,6 @@ int efactor()
  */
 int pfactor() 
 {
-   //printf("Enter <pfactor>\n");
    int val;
    item * var_pos;
 
@@ -235,7 +186,6 @@ int pfactor()
        parenthesis */
        error("expected an id, integer, or a left paren");
    } /* End of else */
-   //printf("Exit <pfactor>\n");
 
    return val;
 }/* End of function pfactor */

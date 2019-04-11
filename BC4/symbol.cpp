@@ -52,15 +52,17 @@ void symbol::dump()
  *    will be returned and a default value of 0 will be placed into the
  *    item's val
  */
-item* symbol::insert(string word,int hash_pos)
+item* symbol::insert(string word)
 {
-   //cout << "Called insert with " << word << endl;
-   item newItem = item();
-   newItem.var = word;
-   table[hash_pos].push_back(newItem);
-   item * ref = table_lookup(word,hash_pos);
-    ref->val = 0; 
-   return ref;
+   item * ref = lookup(word);
+   if(ref == NULL){
+      int hash_pos = hash(word);
+      item newItem = item();
+      newItem.var = word;
+      table[hash_pos].push_back(newItem);
+      ref = table_lookup(word,hash_pos);
+   }
+   return ref;   
 }
 
 /* This function has not been implemented as it is not
@@ -93,13 +95,7 @@ item* symbol::lookup(string word)
 {
    int hash_num = hash(word);
    item *reference = table_lookup(word,hash_num);
-   if(reference == NULL){
-      //word is not in symbol table
-      return insert(word,hash_num);
-   }
-   else{
-      return reference;
-   }
+   return reference;
 }
 
 /*

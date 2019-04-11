@@ -71,6 +71,7 @@ class symbol
       void remove(string var);
       
       item* lookup(string word);
+      item* insert(string var);
       void stats();
 
    private:
@@ -80,7 +81,6 @@ class symbol
       //methods
       int hash(string word);
       item* table_lookup(string word,int pos);
-      item* insert(string var,int hash_pos);
            
 };
 
