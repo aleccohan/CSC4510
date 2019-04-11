@@ -32,7 +32,6 @@ void stmt()
          error("expected equals after Id");
    } else if(nextToken == IF){
       if(cond()){
-         //lex();
          if(nextToken == THEN){
             lex();
             stmt();
@@ -40,29 +39,25 @@ void stmt()
          }else
             error("expected a then after a cond");
       }else{
-         lex();
          while(nextToken != FI){
             lex();
          }
       }
    } else if(nextToken == WHILE){
       int cond_pos = cur_pos;
+      int cond_class = charClass;
+      char cond_char = nextChar;
       while(cond()){
-         //lex();
-         cout << "condition true" << endl;
-         cout << nextToken << endl;
          if(nextToken == DO){
             lex();
             stmt();
-            lex();
-            cout << buffer << endl;
-            cur_pos = cond_pos; 
+            cur_pos = cond_pos;
+            nextChar = cond_char;
+            charClass = cond_class;
          }
       }
-      while(nextToken != DONE){
+      while(nextToken != NEWLINE)
          lex();
-      }
-      lex(); 
    }else {
    	error("expected DUMP, QUIT, assignment, or expression");
    }

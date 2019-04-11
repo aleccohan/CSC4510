@@ -134,13 +134,15 @@ void getChar()
          charClass = OPERATOR;
    } 
    else if((nextChar = getc(stdin)) != EOF) {
-      buffer[max_pos] = nextChar;
+      buffer += nextChar;
       max_pos++;
       cur_pos++;
-      if (isalpha(nextChar))
+      if (isalpha(nextChar)){
          charClass = LETTER;
-      else if (isdigit(nextChar))
+      }
+      else if (isdigit(nextChar)){
          charClass = DIGIT;
+      }
       else if (nextChar == '\n')
          charClass = NEWLINE;
       else 
