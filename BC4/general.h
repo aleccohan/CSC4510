@@ -48,7 +48,6 @@ extern char lexeme [100];
 extern char nextChar;     
 extern int lexLen;
 extern int number;
-extern char result[500];
 //symbol table stuff
 extern symbol * s; 
 //FILE *in_fp, *fopen();

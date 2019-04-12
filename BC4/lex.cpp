@@ -6,7 +6,6 @@ char nextChar;
 int lexLen;
 int charClass;
 
-char result[500];
 int number;
 
 int token;
@@ -28,8 +27,6 @@ int main(void)
       do {
         lex();
         stmt();
-        cout << "    " << result << endl;
-        result[0] = '\0';
         getChar();
       } while (nextToken != EOF);
  

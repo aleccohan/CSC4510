@@ -17,17 +17,11 @@ void stmt()
    //for any of the possible ways an expr can begin
    } else if(nextToken == IDENT){
       var_pos = s->lookup(lexeme);
-      char temp2[100];
-      strcpy(temp2,lexeme);
       lex();
       if(nextToken == ASSIGN_OP){
-         strcat(result,temp2);
          lex();
          left = expr();
          var_pos->val = left;
-         strcat(result,"=");
-         sprintf(temp2,"%d",left);
-         strcat(result,temp2);
       }else
          error("expected equals after Id");
    } else if(nextToken == IF){
@@ -51,16 +45,26 @@ void stmt()
       while(cond()){
          if(nextToken == DO){
             lex();
-            if(nextToken == NEWLINE)
+            if(nextToken == NEWLINE){
+               getChar();
                lex();
-            stmt();
+            }
+            while(nextToken != DONE){
+               stmt();
+               if(nextToken == NEWLINE){
+                  getChar();
+                  lex();
+               }
+            }
             cur_pos = cond_pos;
             nextChar = cond_char;
             charClass = cond_class;
          }
       }
-      while(nextToken != NEWLINE)
-         lex();
+      //while(nextToken != DONE)
+      //   lex();
+      cur_pos = max_pos;
+      lex();
    }else {
    	error("expected DUMP, QUIT, assignment, or expression");
    }
