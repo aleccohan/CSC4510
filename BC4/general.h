@@ -73,6 +73,8 @@ int sfactor();
 int efactor();
 int pfactor();
 bool cond();
+void optionals();
+
 void error(const char *);
   
 /* Character classes */

@@ -34,14 +34,15 @@ void stmt()
       if(cond()){
          if(nextToken == THEN){
             lex();
+            if(nextToken == NEWLINE)
+               lex();
             stmt();
-            lex();
+            while(nextToken != FI)
+              lex();
          }else
             error("expected a then after a cond");
       }else{
-         while(nextToken != FI){
-            lex();
-         }
+         optionals();   
       }
    } else if(nextToken == WHILE){
       int cond_pos = cur_pos;
@@ -50,6 +51,8 @@ void stmt()
       while(cond()){
          if(nextToken == DO){
             lex();
+            if(nextToken == NEWLINE)
+               lex();
             stmt();
             cur_pos = cond_pos;
             nextChar = cond_char;
@@ -62,6 +65,23 @@ void stmt()
    	error("expected DUMP, QUIT, assignment, or expression");
    }
 } /* End of function stmt_list */
+
+/*
+ *
+ */
+void optionals()
+{
+  lex();
+  while(nextToken != FI && nextToken != ELSE)
+     lex();
+  if(nextToken == ELSE){
+     lex();
+     stmt();
+  }
+  else{
+     lex();
+  } 
+}
 
 /* This is the function to handle
  * a cond in a if or while statement
