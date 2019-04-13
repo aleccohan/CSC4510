@@ -28,16 +28,27 @@ void stmt()
       if(cond()){
          if(nextToken == THEN){
             lex();
-            if(nextToken == NEWLINE)
+            if(nextToken == NEWLINE){
+               getChar();
                lex();
-            stmt();
-            while(nextToken != FI)
-              lex();
+            }
+            while(nextToken != FI){
+               stmt();
+               if(nextToken == NEWLINE){
+                  getChar();
+                  lex();
+               }
+            }
+            lex();
          }else
             error("expected a then after a cond");
       }else{
          optionals();   
       }
+   //this code block is to handle while loops,
+   //the while can be on one line or it can be broken
+   //into multi lines as long as the while <cond> do
+   //is on the same line
    } else if(nextToken == WHILE){
       int cond_pos = cur_pos;
       int cond_class = charClass;
@@ -49,13 +60,20 @@ void stmt()
                getChar();
                lex();
             }
+            //this while loop allows for a while 
+            //to have multiple stmts in it.
             while(nextToken != DONE){
                stmt();
                if(nextToken == NEWLINE){
+                  //if the next token is a new line then we need to
+                  //lex to see if another stmt is next or a done is next
+                  //without calling getChar() lex will still see '\n'
+                  //as the nextChar and not update it.
                   getChar();
                   lex();
                }
             }
+            //reset the buffer pos to before the cond.
             cur_pos = cond_pos;
             nextChar = cond_char;
             charClass = cond_class;
@@ -70,17 +88,39 @@ void stmt()
    }
 } /* End of function stmt_list */
 
-/*
- *
+/* This function handles either an else or fi
+ * after the stmts in an if. If there is an else it will
+ * handle several stmts in the else part before the fi
+ * 
  */
 void optionals()
 {
   lex();
-  while(nextToken != FI && nextToken != ELSE)
+  //since the cond was false we need to take off all
+  //the lines until we get to either a FI or ELSE
+  while(nextToken != FI && nextToken != ELSE){
      lex();
+     if(nextToken == NEWLINE){
+        getChar();
+     }
+  }
   if(nextToken == ELSE){
      lex();
-     stmt();
+     //these next three lines handle the case where
+     //else is on a line of it's own.
+     if(nextToken == NEWLINE){
+        getChar();
+        lex();
+     }
+     //this loop handles a multi line else block
+     while(nextToken != FI){
+        stmt();
+        if(nextToken == NEWLINE){
+           getChar();
+           lex();
+        }
+     }
+     lex();
   }
   else{
      lex();
@@ -89,6 +129,8 @@ void optionals()
 
 /* This is the function to handle
  * a cond in a if or while statement
+ * it can only a handle <cond> <rel_op> <cond>
+ * rel_op -> < | > | <= | >= | == | !=
  */
 bool cond()
 {
