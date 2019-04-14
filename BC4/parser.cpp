@@ -11,6 +11,8 @@ void stmt()
 
    if ( nextToken == DUMP ) {
    	s->dump();
+        cout << "Program: " << endl;
+        cout << buffer << endl;
    } else if ( nextToken == QUIT ) {
    	exit(1);
    //if the next token is not dump or quit, you need to check
@@ -24,6 +26,10 @@ void stmt()
          var_pos->val = left;
       }else
          error("expected equals after Id");
+   //this next code block handles an if stmt
+   //since the if can be broken up over multiple lines, and
+   //it can have multiple stmts in the if and else section
+   //there are more items to check for.
    } else if(nextToken == IF){
       if(cond()){
          if(nextToken == THEN){
@@ -140,6 +146,7 @@ bool cond()
    
    switch(nextToken)
    {
+      //the only rel_op that starts with = is ==
       case ASSIGN_OP:
                      lex();
                      if(nextToken == ASSIGN_OP){
@@ -149,6 +156,7 @@ bool cond()
                      }else 
                         error("expected equals after equals");   
                    break;
+      //the only rel_op that starts with ! is !=
       case BANG_OP:
                    lex();
                    if(nextToken == ASSIGN_OP){
@@ -158,12 +166,16 @@ bool cond()
                    }else
                        error("expected equals after bang");
                    break;
+      //the rel_op could be < or <=
       case LESS_OP:
                    lex();
                    if(nextToken == ASSIGN_OP){
                       lex();
                       right = expr();
                       return (left <= right);
+                   //the next token was not = so we need to check for
+                   // < <expr>, all the tokens in the else if are the possible
+                   //tokens that can start <expr>
                    }else if(nextToken == INT_LIT || nextToken == IDENT ||
                             nextToken == SUB_OP || nextToken == LEFT_PAREN){
                       right = expr();
@@ -171,12 +183,16 @@ bool cond()
                    }else
                       error("expected something different");
                    break;
+      //the rel_op could be > or >=
       case MORE_OP:
                    lex();
                    if(nextToken == ASSIGN_OP){
                       lex();
                       right = expr();
                       return (left >= right);
+                   //the next token was not = so we need to check for
+                   // > <expr>, all the tokens in the else if are the possible
+                   //tokens that can start <expr>
                    }else if(nextToken == INT_LIT || nextToken == IDENT ||
                             nextToken == SUB_OP || nextToken == LEFT_PAREN){
                       right = expr();
