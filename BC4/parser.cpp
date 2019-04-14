@@ -89,6 +89,18 @@ void stmt()
       //   lex();
       cur_pos = max_pos;
       lex();
+   }else if(nextToken == PRINT){
+      lex();
+      if(nextToken == IDENT){
+         var_pos = s->lookup(lexeme);
+         cout << "	" << var_pos->var << " = " << var_pos->val << endl;
+      }
+      lex();
+   }else if(nextToken == SHARP_OP){
+      while(charClass != NEWLINE){
+         getChar();
+      }
+      lex();
    }else {
    	error("expected DUMP, QUIT, assignment, or expression");
    }

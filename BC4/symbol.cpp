@@ -59,6 +59,7 @@ item* symbol::insert(string word)
       int hash_pos = hash(word);
       item newItem = item();
       newItem.var = word;
+      newItem.val = 0;
       table[hash_pos].push_back(newItem);
       ref = table_lookup(word,hash_pos);
    }

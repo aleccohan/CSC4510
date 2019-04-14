@@ -86,6 +86,10 @@ int lookup(char ch)
                 addChar();
                 nextToken = MORE_OP;
                 break;
+      case '#':
+                addChar();
+                nextToken = SHARP_OP;
+                break;
       default:
                 addChar();
                 nextToken = EOF;
