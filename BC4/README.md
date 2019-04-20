@@ -1,6 +1,8 @@
 # BC4
 > Authors: Alec Cohan, Isaac Shore, Matthew Olker 
 >
+> Contributions: Isaac 50% Matthew 25% Alec 25%
+>
 > Date: 4/9/2019
 > 
 > Class: CSC4510
@@ -26,15 +28,20 @@ make clean
 BC is a executable file used to do basic math, so the input that will be needed is basic math. This can either be done from the command line or by using I/O redirection with an input file. 
 ```bash
 cat input.txt
-5 + 6
+a = 5
+print a
+quit
 calc < input.txt
-=11
+	a = 5
 ```
 or 
 ```bash
 calc
-5 + 6
-=11
+a = 5
+b = a + 6
+print b
+	=11
+quit
 ```
 
 ## Changes From Other Versions
@@ -69,8 +76,7 @@ if <conditional> then
 if statements also work with else statements. Those look like:
 ```bash
 if <conditional> then
-	statement
-else
+	statement else
 	statement fi
 ```
 *** all above spacing not required ***
