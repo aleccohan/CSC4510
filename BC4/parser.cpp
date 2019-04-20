@@ -38,14 +38,23 @@ void stmt()
                getChar();
                lex();
             }
-            while(nextToken != FI){
+            while(nextToken != FI && nextToken != ELSE){
                stmt();
                if(nextToken == NEWLINE){
                   getChar();
                   lex();
                }
             }
-            lex();
+            if(nextToken == ELSE){
+               while(nextToken != FI){
+                  lex();
+                  if(nextToken == NEWLINE){
+                     getChar();
+                  }
+               }
+            }
+            else
+               lex();
          }else
             error("expected a then after a cond");
       }else{
