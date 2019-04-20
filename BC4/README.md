@@ -1,6 +1,8 @@
 # BC4
 > Authors: Alec Cohan, Isaac Shore, Matthew Olker 
 >
+> Contributions: Isaac 50% Matthew 25% Alec 25%
+>
 > Date: 4/9/2019
 > 
 > Class: CSC4510
@@ -22,19 +24,24 @@ Before running "make" again, use the command "make clean" to remove old object f
 make clean
 ```
 
-## How to run BC3
+## How to run BC4
 BC is a executable file used to do basic math, so the input that will be needed is basic math. This can either be done from the command line or by using I/O redirection with an input file. 
 ```bash
 cat input.txt
-5 + 6
+a = 5
+print a
+quit
 calc < input.txt
-=11
+	a = 5
 ```
 or 
 ```bash
 calc
-5 + 6
-=11
+a = 5
+b = a + 6
+print b
+	=11
+quit
 ```
 
 ## Changes From Other Versions
@@ -45,7 +52,34 @@ Past versions of our BC has included using lexx, yacc, or bison to create most o
 BC and BC2 were both good examples of ways to accomplish the same goal while using a bottom-up parser. BC3 differs from both by solving the same problem using a recursive descept top-down parser. What this means is the program will recursively implement useable non-terminals of the grammar until it gets to the desired answer, and going about it from the top-to-bottom of a parse tree.
 
 ### New Statements
-The goal with BC up until BC4 has mainly been to make a functional calculator. BC4 is designed to go a step further by adding statements that are closer to a programming language than a caluclator, such as: if statements, while statements, print statements, and comments
+The goal with BC up until BC4 has mainly been to make a functional calculator. BC4 is designed to go a step further by adding statements that are closer to a programming language than a caluclator, such as: if statements, if-else statements, while statements, print statements, and comments. 
+
+To use a print statement, write "print" and then a variable already in the symbol table.
+
+### Multi-Line Statements
+It is rare that someone will want to make an if or while statement that only has one line inside for what to happen, so we made sure to include the ability to make it functional on multiple lines. The proper setup is as follows: 
+```bash
+while <conditional> do
+	statement
+	statement
+	...
+	statement done
+```
+or
+```bash
+if <conditional> then
+	statement
+	statement
+	...
+	statement fi
+```
+if statements also work with else statements. Those look like:
+```bash
+if <conditional> then
+	statement else
+	statement fi
+```
+*** all above spacing not required ***
 
 ## Syntax
 ### Operators
@@ -63,6 +97,8 @@ Currently, even though minus is in the code, it has not been implemented into th
 * Parenthesis ( )
 	* Input can include expressions using parentheis to better control order of operations
 * Unary Minus (Negative) - 
+* Comments #
+	* Comments are done by putting a "#" and then any text on that line
 
 ### Noteable Syntax
 * Make sure your input always ends with a NEWLINE.
